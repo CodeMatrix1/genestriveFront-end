@@ -3,9 +3,10 @@ import React, { useEffect, useState } from "react";
 import { ChevronLeftNormal } from "../icons/ChevronLeftNormal";
 import Navbar2 from "../components/Navbar2";
 import { useRouter, useSearchParams } from "next/navigation";
+import { getAuth } from "firebase/auth";
 
 //<div className="flex justify-between mx-[150px] mt-8 space-y-4">
-export default function GenerateTest() {
+export default function GenerateTest(){
   const router = useRouter();
   const searchParams = useSearchParams();
   // State variables for form data
@@ -41,11 +42,17 @@ export default function GenerateTest() {
         : [...prevSubjects, subject]
     );
     try {
-      const res = await fetch("/api/generate-test/topics", {
+      const auth = getAuth();
+      const user = auth.currentUser;
+      if (!user) throw new Error("User not logged in");
+
+      const token = await user.getIdToken();
+      const res = await fetch("http://127.0.0.1:8000/api/generate-test/topics", {
         method: "POST",
         body: JSON.stringify({ subjects, category }),
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
       });
       if (!res.ok) {
@@ -114,11 +121,19 @@ export default function GenerateTest() {
     };
 
     try {
+      const auth = getAuth();
+      const user = auth.currentUser;
+      if (!user) throw new Error("User not logged in");
+
+      const token = await user.getIdToken();
+      const startTime = new Date().toISOString();
+
       console.log("Generating test with data:", requestData);
-      const res = await fetch("/api/generate-test", {
+      const res = await fetch("http://127.0.0.1:8000/api/generate-test", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ requestData }),
       });
