@@ -5,10 +5,10 @@ import ProtectedRoute from '../pages/components/ProtectedRoute';
 
 export default function LoginPage() {
   return (
-    // <ProtectedRoute>
+    <ProtectedRoute>
       <main>
         <Dashboard />
       </main>
-    // </ProtectedRoute>
+    </ProtectedRoute>
   );
 } 
