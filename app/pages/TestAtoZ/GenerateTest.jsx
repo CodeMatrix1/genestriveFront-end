@@ -42,11 +42,17 @@ export default function GenerateTest(){
         : [...prevSubjects, subject]
     );
     try {
-      const res = await fetch("/api/generate-test/topics", {
+      const auth = getAuth();
+      const user = auth.currentUser;
+      if (!user) throw new Error("User not logged in");
+
+      const token = await user.getIdToken();
+      const res = await fetch("http://127.0.0.1:8000/api/generate-test/topics", {
         method: "POST",
         body: JSON.stringify({ subjects, category }),
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
       });
       if (!res.ok) {
