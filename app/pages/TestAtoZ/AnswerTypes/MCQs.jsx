@@ -1,4 +1,5 @@
 import React from "react";
+import QuestionRenderer from "../../components/QuestionRenderer";
 
 function MCQs({ Input }) {
   const {
@@ -14,7 +15,7 @@ function MCQs({ Input }) {
     newSelectedAnswers[currentQuestionIndex] = optionIndex;
     setSelectedAnswers(newSelectedAnswers);
     const newSelectedAnswersbyid = [...selectedAnswersbyid];
-    newSelectedAnswers[id] = optionIndex;
+    newSelectedAnswersbyid[id] = optionIndex;
     setSelectedAnswersbyid(newSelectedAnswersbyid);
   };
   // Handler for option selection
@@ -38,7 +39,7 @@ function MCQs({ Input }) {
             onClick={() => handleOptionSelect(optionIndex, currentQuestion.id)}
           >
             <span className="font-medium text-[#2f2f68] text-[32px]">
-              {option.text}
+              <QuestionRenderer content={option.text} />
             </span>
           </div>
         );
@@ -46,6 +47,5 @@ function MCQs({ Input }) {
     </div>
   );
 }
-
 
 export default MCQs;
