@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import QuestionRenderer from "../../components/QuestionRenderer";
 
 function MCQs1({ Input }) {
   if (!Input) return null;
@@ -20,7 +21,9 @@ function MCQs1({ Input }) {
           key={index}
           className="w-full p-4 rounded-lg bg-white text-[#2f2f68] text-lg border border-gray-300 shadow-sm hover:shadow-md transition duration-200"
         >
-          <span className="font-medium">{option.text}</span>
+          <span className="font-medium">
+            <QuestionRenderer content={option.text} />
+          </span>
         </div>
       ))}
 
